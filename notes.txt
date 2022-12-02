@@ -1,0 +1,9 @@
+Ideas:
+
+- Need way to validate picks, thinking maybe a yesterday table, run everymorning loads all previous games scores to then be cross referenced to validate previous picks from bet tracker.
+- Update DVOA tables will run every tuesday to update the stock DVOA table
+- Will make a last 3 dvoa table as well
+- live bet tracker, looks for live lines based on start parameters, _ pt fav down _ pts in the _ qtr
+- maybe figure out opening line tracker, figure out when dk normally drops opening lines or closest to it
+- nba player data integration, compare with player props and check for value based on odds
+- nfl handicapper, data in my notebook
