@@ -7,3 +7,4 @@ Ideas:
 - maybe figure out opening line tracker, figure out when dk normally drops opening lines or closest to it
 - nba player data integration, compare with player props and check for value based on odds
 - nfl handicapper, data in my notebook
+- could find a free bet tracker and make the model put picks in there to track and view mobile
