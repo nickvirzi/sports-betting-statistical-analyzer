@@ -12,3 +12,5 @@ def index():
 def runVSIN():
     os.system('python vsinDailyTracker.py')
     return 'Hello World'
+
+app.run()
