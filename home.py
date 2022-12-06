@@ -8,9 +8,9 @@ app = Flask(__name__)
 def index():
     return 'Hello World'
 
-@app.route('/runVSIN')
-def runVSIN():
-    os.system('python vsinDailyTracker.py')
-    return 'Hello World'
+#@app.route('/runVSIN')
+#def runVSIN():
+    #os.system('python vsinDailyTracker.py')
+    #return 'Hello World'
 
 app.run()
