@@ -29,7 +29,7 @@ driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chro
 
 # #Sets up driver
 # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-# driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-mlb-nba-nhl/')
+driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-mlb-nba-nhl/')
 # driver.maximize_window()
 
 # #Sets up current time and date formatting
