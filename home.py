@@ -7,6 +7,11 @@ app = Flask(__name__)
 def index():
     return 'Hello World'
 
+@app.route('/runVSIN')
+def runVSIN():
+    os.system('python vsinDailyTracker.py')
+    return 'Hello World'
+
 if __name__ == '__main__':
     #Wont work with local, comment out this line and change below to app.run()
     #port = int(os.environ.get('PORT')) 
