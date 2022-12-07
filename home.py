@@ -9,5 +9,5 @@ def index():
 
 if __name__ == '__main__':
     #Wont work with local, comment out this line and change below to app.run()
-    port = int(os.environ.get('PORT')) 
-    app.run(host='0.0.0.0', port=port, debug=True)
+    #port = int(os.environ.get('PORT')) 
+    app.run()
