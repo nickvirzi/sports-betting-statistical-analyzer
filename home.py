@@ -1,5 +1,5 @@
 import os
-#import vsinDailyTracker
+import vsinDailyTracker
 from flask import Flask
 app = Flask(__name__)
 
