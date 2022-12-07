@@ -41,6 +41,8 @@ driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-ml
 
 # #VSIN uses an IFrame which requires a switch to the frame
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
+
+time.sleep(20)
 # league = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[1]/span').text
 
 # #Connects to mongo and sets up collections and databases
