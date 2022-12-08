@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'Hello World'
+    return 'Evan is gay'
 
 @app.route('/runVSIN')
 def runVSIN():
