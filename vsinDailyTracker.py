@@ -18,9 +18,7 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.binary_location = GOOGLE_CHROME_BIN
-driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
-
-print('yeet')
+driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
 
 # #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
@@ -44,7 +42,8 @@ driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-ml
 # #VSIN uses an IFrame which requires a switch to the frame
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
 
-# league = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[1]/span').text
+league = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[1]/span').text
+print(league)
 
 # #Connects to mongo and sets up collections and databases
 # client = pymongo.MongoClient("mongodb+srv://nickvirzi:sbsa@cluster0.rlqm7dy.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
