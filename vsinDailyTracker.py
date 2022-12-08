@@ -95,5 +95,5 @@ for fullMatchupData in listOfMatchupData:
         "league" : league
     }
 
-    if dayLegueTimeCollection.find_one(time=displayTime): break
+    if dayLegueTimeCollection.find_one({"time":displayTime}): break
     else: dayLegueTimeCollection.insert_one(matchupDictionary)
