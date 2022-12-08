@@ -20,6 +20,8 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.binary_location = GOOGLE_CHROME_BIN
 driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
+print('yeet')
+
 # #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
 # #Notes-------------------------------------------------------------------------------------------------
