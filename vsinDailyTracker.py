@@ -1,13 +1,12 @@
+import pymongo
 import time
-import pytz
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from pymongo.server_api import ServerApi
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from datetime import datetime
-from pytz import timezone
+from datetime import datetime, timedelta
 
 GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google-chrome'
 CHROMEDRIVER_PATH = Service('/app/.chromedriver/bin/chromedriver')
@@ -31,8 +30,8 @@ driver = webdriver.Chrome(service=CHROMEDRIVER_PATH, options=chrome_options)
 driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-mlb-nba-nhl/')
 
 # #Sets up current time and date formatting
-eastern = timezone('US/Eastern')
-now = datetime.now(eastern)
+now = datetime.now()
+now += timedelta(hours=-5)
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
