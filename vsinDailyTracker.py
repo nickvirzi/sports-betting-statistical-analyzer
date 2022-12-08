@@ -18,7 +18,7 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.binary_location = GOOGLE_CHROME_BIN
-driver = webdriver.Chrome(CHROMEDRIVER_PATH, options=chrome_options)
+driver = webdriver.Chrome(service=CHROMEDRIVER_PATH, options=chrome_options)
 
 # #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
