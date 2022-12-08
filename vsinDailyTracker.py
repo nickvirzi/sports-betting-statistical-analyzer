@@ -43,20 +43,21 @@ driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-ml
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
 
 league = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[1]/span').text
-print(league)
 
 # #Connects to mongo and sets up collections and databases
-# client = pymongo.MongoClient("mongodb+srv://nickvirzi:sbsa@cluster0.rlqm7dy.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
-# vsinDailyTrackerDatabase = client["VSINDailyTrackerDatabase"]
+client = pymongo.MongoClient("mongodb+srv://nickvirzi:sbsa@cluster0.rlqm7dy.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
+vsinDailyTrackerDatabase = client["VSINDailyTrackerDatabase"]
 # dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + displayTime]
 
-# listOfMatchupData = []
+listOfMatchupData = []
 
 # #Adds raw matchup data for a sport to an array, also checks to stop the table because it will go on forever
-# for tableRow in driver.find_elements(By.XPATH, '//*[@id="dksplits"]/tbody//tr'):
-#     matchupDataRow = [item.text for item in tableRow.find_elements(By.XPATH, './/*[self::td]')]
-#     if matchupDataRow[0] == '' and matchupDataRow[1] == '': break
-#     listOfMatchupData.append(matchupDataRow)
+for tableRow in driver.find_elements(By.XPATH, '//*[@id="dksplits"]/tbody//tr'):
+    matchupDataRow = [item.text for item in tableRow.find_elements(By.XPATH, './/*[self::td]')]
+    if matchupDataRow[0] == '' and matchupDataRow[1] == '': break
+    listOfMatchupData.append(matchupDataRow)
+
+print(listOfMatchupData)
 
 # #Neatly formats and enters data into the SBSA Database
 # for fullMatchupData in listOfMatchupData:
