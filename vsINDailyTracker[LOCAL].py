@@ -21,6 +21,9 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-mlb-nba-nhl/')
 driver.maximize_window()
 
+#################################################################################################################################################
+## Everything below this line can be sync'd with the other form to work the same apart from web driver behavior ##
+
 #Sets up current time and date formatting
 now = datetime.now()
 currentTimeMilitary = now.strftime("%H:%M")

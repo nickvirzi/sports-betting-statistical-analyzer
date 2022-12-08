@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from pymongo.server_api import ServerApi
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from datetime import datetime
+from datetime import datetime, timezone
 
 GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google-chrome'
 CHROMEDRIVER_PATH = Service('/app/.chromedriver/bin/chromedriver')
@@ -30,7 +30,8 @@ driver = webdriver.Chrome(service=CHROMEDRIVER_PATH, options=chrome_options)
 driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-mlb-nba-nhl/')
 
 # #Sets up current time and date formatting
-now = datetime.now()
+eastern = timezone('US/Eastern')
+now = datetime.now(eastern)
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
@@ -52,8 +53,6 @@ for tableRow in driver.find_elements(By.XPATH, '//*[@id="dksplits"]/tbody//tr'):
     matchupDataRow = [item.text for item in tableRow.find_elements(By.XPATH, './/*[self::td]')]
     if matchupDataRow[0] == '' and matchupDataRow[1] == '': break
     listOfMatchupData.append(matchupDataRow)
-
-print(listOfMatchupData)
 
 # #Neatly formats and enters data into the SBSA Database
 for fullMatchupData in listOfMatchupData:
