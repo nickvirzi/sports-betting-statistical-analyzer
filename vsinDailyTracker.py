@@ -3,14 +3,14 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+#from webdriver_manager.chrome import ChromeDriverManager
 # from pymongo.server_api import ServerApi
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime
 
 GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google-chrome'
-CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+CHROMEDRIVER_PATH = Service('/app/.chromedriver/bin/chromedriver')
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--disable-gpu')
@@ -18,7 +18,7 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.binary_location = GOOGLE_CHROME_BIN
-driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
+driver = webdriver.Chrome(CHROMEDRIVER_PATH, options=chrome_options)
 
 # #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
