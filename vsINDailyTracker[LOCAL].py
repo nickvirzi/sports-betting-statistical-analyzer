@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pymongo.server_api import ServerApi
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from datetime import datetime
+from datetime import datetime, timedelta
 
 #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
@@ -26,29 +26,30 @@ driver.maximize_window()
 
 #Sets up current time and date formatting
 now = datetime.now()
+#now += timedelta(hours=-5) #Not needed on local
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
 date = now.strftime("%m/%d/%Y")
 
-#VSIN uses an IFrame which requires a switch to the frame
+# #VSIN uses an IFrame which requires a switch to the frame
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
 league = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[1]/span').text
 
-#Connects to mongo and sets up collections and databases
+# #Connects to mongo and sets up collections and databases
 client = pymongo.MongoClient("mongodb+srv://nickvirzi:sbsa@cluster0.rlqm7dy.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
 vsinDailyTrackerDatabase = client["VSINDailyTrackerDatabase"]
 dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + displayTime]
 
 listOfMatchupData = []
 
-#Adds raw matchup data for a sport to an array, also checks to stop the table because it will go on forever
+# #Adds raw matchup data for a sport to an array, also checks to stop the table because it will go on forever
 for tableRow in driver.find_elements(By.XPATH, '//*[@id="dksplits"]/tbody//tr'):
     matchupDataRow = [item.text for item in tableRow.find_elements(By.XPATH, './/*[self::td]')]
     if matchupDataRow[0] == '' and matchupDataRow[1] == '': break
     listOfMatchupData.append(matchupDataRow)
 
-#Neatly formats and enters data into the SBSA Database
+# #Neatly formats and enters data into the SBSA Database
 for fullMatchupData in listOfMatchupData:
     teamNameData = fullMatchupData[0].split()
     teamSpreadData = fullMatchupData[1].split()
@@ -89,4 +90,5 @@ for fullMatchupData in listOfMatchupData:
         "league" : league
     }
 
-    dayLegueTimeCollection.insert_one(matchupDictionary)
+    if dayLegueTimeCollection.find_one({"time":displayTime}) and dayLegueTimeCollection.find_one({"awayTeamName":teamNameData[1]}) and dayLegueTimeCollection.find_one({"homeTeamName":teamNameData[3],}): break
+    else: dayLegueTimeCollection.insert_one(matchupDictionary)
