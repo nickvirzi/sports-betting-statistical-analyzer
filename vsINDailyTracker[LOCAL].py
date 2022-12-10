@@ -27,7 +27,7 @@ now = datetime.now()
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
-date = now.strftime("%m/%d")    
+date = now.strftime("%m/%d")
 tempDate = date.split('/')
 if tempDate[1][0] == '0': 
     date = date.replace('0', '')

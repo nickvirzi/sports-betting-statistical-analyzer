@@ -35,8 +35,11 @@ now += timedelta(hours=-5)
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
-date = now.strftime("%m/%d/%Y")
-
+date = now.strftime("%m/%d")
+tempDate = date.split('/')
+if tempDate[1][0] == '0': 
+    date = date.replace('0', '')
+    
 #VSIN uses an IFrame which requires a switch to the frame
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
 
