@@ -39,7 +39,7 @@ date = now.strftime("%m/%d")
 tempDate = date.split('/')
 if tempDate[1][0] == '0': 
     date = date.replace('0', '')
-    
+
 #VSIN uses an IFrame which requires a switch to the frame
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
 
@@ -108,7 +108,7 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
             "date" : date,
             "league" : league
         }
-        print(displayTime, teamNameData[0], teamNameData[1])
+
         if dayLegueTimeCollection.find_one({"time":displayTime}) and dayLegueTimeCollection.find_one({"awayTeamName":teamNameData[0]}) and dayLegueTimeCollection.find_one({"homeTeamName":teamNameData[1]}): break
         else: dayLegueTimeCollection.insert_one(matchupDictionary)
 
@@ -121,6 +121,5 @@ for league in leagues:
     leagueName = league.text
     
     if index < 6: 
-        print('/html/body/div[2]/div/div[1]/div[1]/a[' + str(index) + ']')
         driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[' + str(index) + ']').click()
         getLeagueVSINDailyData(date, displayTime, leagueName, index)
