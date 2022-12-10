@@ -43,6 +43,7 @@ monthIntStringDict = {
     'January': '1', 'February': '2', 'March': '3', 'April': '4', 'May': '5', 'June': '6', 'July': '7', 'August': '8', 'September': '9', 'October': '10', 'November': '11', 'December': '12'
 }
 
+#Input month string for month date as a string
 def getMonthIntString(month):
     monthIntString = monthIntStringDict[month]
     return monthIntString
@@ -54,6 +55,8 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
     dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + displayTime]
 
     listOfMatchupData = []
+    
+    #Get date formatted to match the VSIN table
     thDate = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div[' + str(index) + ']/div[2]/div/div/div/table/thead[1]/tr/th[1]/span').text 
     thDate = thDate.split(',')[1].split()
     thDate = getMonthIntString(thDate[0]) + "/" + thDate[1]
@@ -62,7 +65,7 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
         #Adds raw matchup data for a sport to an array, also checks to stop the table because it will go on forever
         for tableRow in driver.find_elements(By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div[' + str(index) + ']/div[2]/div/div/div/table/tbody[1]//tr'):
             matchupDataRow = [item.text for item in tableRow.find_elements(By.XPATH, './/*[self::td]')]
-            if matchupDataRow[0] == '' and matchupDataRow[1] == '' and league != 'CFB': break
+            if matchupDataRow[0] == '' and matchupDataRow[1] == '': break
             listOfMatchupData.append(matchupDataRow)
 
     #Neatly formats and enters data into the SBSA Database
@@ -78,6 +81,7 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
         mlPercentOfMoney = fullMatchupData[8].split()
         mlPercentOfBets = fullMatchupData[9].split()
 
+        #Set up dictionary for database insertion
         matchupDictionary = { 
             "awayTeamName" : teamNameData[0],
             "homeTeamName" : teamNameData[1],
@@ -104,17 +108,23 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
             "league" : league
         }
 
+        #Double check the entry we are about to enter isnt in the table within the last minute
         if dayLegueTimeCollection.find_one({"time":displayTime}) and dayLegueTimeCollection.find_one({"awayTeamName":teamNameData[0]}) and dayLegueTimeCollection.find_one({"homeTeamName":teamNameData[1]}): break
         else: dayLegueTimeCollection.insert_one(matchupDictionary)
 
 # Begin Main
+
+#Gets league headers on VSIN
 leagueTH = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]')
 leagues = leagueTH.find_elements(By.XPATH, './/*[self::a]')
 
+#Index through the different leagues to set up mathcups
 for league in leagues:
-    index = leagues.index(league) + 1
+    #VSINs first sport starts at index 1
+    index = leagues.index(league) + 1 
     leagueName = league.text
     
+    #Limiting to the first 5 sports on VSIN as of now
     if index < 6: 
         driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[' + str(index) + ']').click()
         getLeagueVSINDailyData(date, displayTime, leagueName, index)
