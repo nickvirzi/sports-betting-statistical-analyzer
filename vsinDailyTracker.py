@@ -105,7 +105,7 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
             "date" : date,
             "league" : league
         }
-
+        print(displayTime, teamNameData[0], teamNameData[1])
         if dayLegueTimeCollection.find_one({"time":displayTime}) and dayLegueTimeCollection.find_one({"awayTeamName":teamNameData[0]}) and dayLegueTimeCollection.find_one({"homeTeamName":teamNameData[1]}): break
         else: dayLegueTimeCollection.insert_one(matchupDictionary)
 
