@@ -118,5 +118,6 @@ for league in leagues:
     leagueName = league.text
     
     if index < 6: 
+        print('/html/body/div[2]/div/div[1]/div[1]/a[' + str(index) + ']')
         driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[' + str(index) + ']').click()
         getLeagueVSINDailyData(date, displayTime, leagueName, index)
