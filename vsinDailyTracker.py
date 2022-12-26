@@ -1,5 +1,4 @@
 import pymongo
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -35,12 +34,13 @@ now += timedelta(hours=-5)
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
-
-#Format date to match VSIN
+timeModifer = displayTime[-2:]
+displayTime = displayTime[:-6]
 date = now.strftime("%m/%d")
 tempDate = date.split('/')
-if tempDate[1][0] == '0': 
-    date = date.replace('0', '')
+
+if tempDate[1][0] == '0': date = date.replace('0', '')
+if displayTime[0] == '0': displayTime = displayTime.replace('0', '', 1)
 
 #VSIN uses an IFrame which requires a switch to the frame
 WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
@@ -58,8 +58,8 @@ def getMonthIntString(month):
 def getLeagueVSINDailyData(date, displayTime, league, index): 
     #Connects to mongo and sets up collections and databases
     client = pymongo.MongoClient("mongodb+srv://nickvirzi:sbsa@cluster0.rlqm7dy.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
-    vsinDailyTrackerDatabase = client["VSINDailyTrackerDatabase"]
-    dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + displayTime]
+    vsinDailyTrackerDatabase = client["VSINDailyTrackerDB"]
+    dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + timeModifer + ' ' + displayTime] #'12/19 - NFL - PM 9:48'
 
     listOfMatchupData = []
     
