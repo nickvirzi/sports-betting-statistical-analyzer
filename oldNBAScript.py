@@ -118,7 +118,7 @@ def runPlayerdata(playerData, currentMonth):
     playerData.getNextOpponentFormattedAndAbbreviated()
 
     #Go back to the players profile to then determine splits based upon opponent 
-    driver = webdriver.Chrome(executable_path=DRIVER_PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get(playerData.playerURL)
 
     window_after = driver.window_handles[0]
@@ -348,7 +348,7 @@ for x in playerNameArray:
 for s in playerArray:
     runPlayerdata(s, currentMonth)
 
-    driver = webdriver.Chrome(executable_path=DRIVER_PATH)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get('https://www.espn.com/')
 
 #TODO Potentially add code to check how injured games are handled by days rest
