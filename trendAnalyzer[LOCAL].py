@@ -1,11 +1,5 @@
 import pymongo
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from pymongo.server_api import ServerApi
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime, timedelta
 from TrendPick import TrendPick
 import certifi
@@ -15,7 +9,9 @@ ca = certifi.where()
 #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
 #Notes-------------------------------------------------------------------------------------------------
-# - When clicking a different league header u gotta use full XPATH's bc they use active HTML switching
+# Do I wana analyze dynamically by the web, or import all stats from games from major leagues to my DB??
+# New script to scrape scores every morning, checks for duplicates of the day, decide how in depth to go on stats kept. 
+# Then this script can pull that data and not have to scrape. 
 
 #Functions
 #Take in league and return the ESPN league string needed to find scoreboard
@@ -23,9 +19,6 @@ def getESPNLeagueAbbreviation(league):
     espnLeagueDictionary = { 'NFL': 'nfl', 'NBA': 'nba', 'CBB': 'mens-college-basketball', 'CFB': 'college-football', 'NHL': 'nhl' }
     espnLeague = espnLeagueDictionary[league]
     return espnLeague
-
-#Sets up driver
-#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 #Sets up current time and date formatting
 now = datetime.now()
@@ -87,19 +80,4 @@ for trend in trends:
         trendPick.time = trendData['time']
         trendPick.trend = trendData['trend']
 
-        
         trendPicks.append(trendPick)
-
-
-
-
-
-
-
-
-
-
-
-
-# driver.get('https://www.vsin.com/betting-resources/daily-betting-insights-for-mlb-nba-nhl/')
-# driver.maximize_window()
