@@ -1,9 +1,7 @@
 class Matchup:
-    def __init__(self, homeTeamName, awayTeamName, homeTeamAbbr, awayTeamAbbr):
+    def __init__(self, homeTeamName, awayTeamName):
         self.homeTeamName = homeTeamName
         self.awayTeamName = awayTeamName
-        self.homeTeamAbbr = homeTeamAbbr
-        self.awayTeamAbbr = awayTeamAbbr
     
     homeSpread = None
     awaySpread = None
@@ -13,10 +11,10 @@ class Matchup:
     awaySpreadPercentOfBets = None
     overTotal = None
     underTotal = None
-    overTotalPercentOfMoney = None
-    underTotalPercentOfMoney = None
-    overTotalPercentOfBets = None
-    underTotalPercentOfBets = None
+    overPercentOfMoney = None
+    underPercentOfMoney = None
+    overPercentOfBets = None
+    underPercentOfBets = None
     homeML = None
     awayML = None
     homeMLPercentOfMoney = None

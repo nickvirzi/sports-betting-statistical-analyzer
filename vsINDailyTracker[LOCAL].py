@@ -1,5 +1,4 @@
 import pymongo
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -12,9 +11,8 @@ from datetime import datetime, timedelta
 #This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
 #Notes-------------------------------------------------------------------------------------------------
-# - All games upload with current date, needs to be its date, index through table looking for headers maybe?
 # - When clicking a different league header u gotta use full XPATH's bc they use active HTML switching
-# - Automate gathering all leagues
+
 
 #Sets up driver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -23,14 +21,17 @@ driver.maximize_window()
 
 #Sets up current time and date formatting
 now = datetime.now()
-#now += timedelta(hours=-5) #Not needed on local
+#now += timedelta(hours=-12) #Not needed on local
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
+timeModifer = displayTime[-2:]
+displayTime = displayTime[:-6]
 date = now.strftime("%m/%d")
 tempDate = date.split('/')
-if tempDate[1][0] == '0': 
-    date = date.replace('0', '')
+
+if tempDate[1][0] == '0': date = date.replace('0', '')
+if displayTime[0] == '0': displayTime = displayTime.replace('0', '', 1)
 
 #################################################################################################################################################
 ### Everything below this line can be sync'd with the other form to work the same apart from web driver behavior ###
@@ -51,8 +52,8 @@ def getMonthIntString(month):
 def getLeagueVSINDailyData(date, displayTime, league, index): 
     #Connects to mongo and sets up collections and databases
     client = pymongo.MongoClient("mongodb+srv://nickvirzi:sbsa@cluster0.rlqm7dy.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
-    vsinDailyTrackerDatabase = client["VSINDailyTrackerDatabase"]
-    dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + displayTime]
+    vsinDailyTrackerDatabase = client["VSINDailyTrackerDB"]
+    dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + timeModifer + ' ' + displayTime] #'12/19 - NFL - PM 9:48'
 
     listOfMatchupData = []
     
@@ -85,12 +86,12 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
         matchupDictionary = { 
             "awayTeamName" : teamNameData[0],
             "homeTeamName" : teamNameData[1],
-            "awayTeamSpread" : teamSpreadData[0],
-            "homeTeamSpread" : teamSpreadData[1],
-            "awayTeamSpreadPercentOfMoney" : spreadPercentOfMoneyData[0],
-            "homeTeamSpreadPercentOfMoney" : spreadPercentOfMoneyData[1],
-            "awayTeamSpreadPercentOfBets" : spreadPercentOfBetsData[0],
-            "homeTeamSpreadPercentOfBets" : spreadPercentOfBetsData[1],
+            "awaySpread" : teamSpreadData[0],
+            "homeSpread" : teamSpreadData[1],
+            "awaySpreadPercentOfMoney" : spreadPercentOfMoneyData[0],
+            "homeSpreadPercentOfMoney" : spreadPercentOfMoneyData[1],
+            "awaySpreadPercentOfBets" : spreadPercentOfBetsData[0],
+            "homeSpreadPercentOfBets" : spreadPercentOfBetsData[1],
             "overTotal" : totalData[0],
             "underTotal" : totalData[1],
             "overPercentOfMoney" : totalPercentOfMoneyData[0],
