@@ -3,7 +3,7 @@ from Matchup import Matchup
 from pymongo.server_api import ServerApi
 from datetime import datetime
 
-# This was needed to make the mongo work, idk why
+# This was needed to make the mongo work LOCAL, idk why
 import certifi
 ca = certifi.where()
 
@@ -102,15 +102,16 @@ for collectionName in vsinDailyTrackerDatabase.list_collection_names():
             mostRecentTimeInDBString = str(firstDigit) + ':' + str(secondDigit)
             if 'PM' in time: firstDigit += 12
             mostRecentTimeInDB = firstDigit + (secondDigit / 60)
+            
+dateTimeData = {
+    "date": date,
+    'time': mostRecentTimeInDBString,
+    "timeModifier": timeModifer
+}
 
 for league in leagues:
     dayLegueTimeCollection = vsinDailyTrackerDatabase[date + ' - ' + league + ' - ' + timeModifer + ' ' + mostRecentTimeInDBString] #'12/19 - NFL - PM 9:48'
     matchupsArray = []
-    dateTimeData = {
-        "date": date,
-        'time': mostRecentTimeInDBString,
-        "timeModifier": timeModifer
-    }
     
     for matchupData in dayLegueTimeCollection.find():
         matchup = Matchup(matchupData['homeTeamName'][1:], matchupData['awayTeamName'][1:])
