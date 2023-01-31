@@ -13,7 +13,7 @@ def runVSIN():
     return 'VSIN Tracked'
 
 @app.route('/runTrendTracker')
-def runVSIN():
+def runTrendTracker():
     os.system('python trendTracker.py')
     return 'Trend Picks Made'
 
