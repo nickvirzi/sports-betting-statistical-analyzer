@@ -44,7 +44,7 @@ if tempDate[1][0] == '0': date = date.replace('0', '')
 if displayTime[0] == '0': displayTime = displayTime.replace('0', '', 1)
 
 #VSIN uses an IFrame which requires a switch to the frame
-WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div[1]/div/iframe')))
+WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div[1]/div/iframe')))
 
 #Create month dictionary
 monthIntStringDict = {
