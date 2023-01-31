@@ -18,7 +18,7 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.binary_location = GOOGLE_CHROME_BIN
 driver = webdriver.Chrome(service=CHROMEDRIVER_PATH, options=chrome_options)
 
-#This script is design to capture the vsin data and send it to a database to be tracked and interpreted YEET
+#This script is design to capture the vsin data and send it to a database to be tracked and interpreted
 
 #Notes-------------------------------------------------------------------------------------------------
 # - All games upload with current date, needs to be its date, index through table looking for headers maybe?
