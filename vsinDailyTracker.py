@@ -39,11 +39,12 @@ displayTime = displayTime[:-6]
 date = now.strftime("%m/%d")
 tempDate = date.split('/')
 
+if tempDate[0][0] == '0': date = date.replace('0', '', 1)
 if tempDate[1][0] == '0': date = date.replace('0', '')
 if displayTime[0] == '0': displayTime = displayTime.replace('0', '', 1)
 
 #VSIN uses an IFrame which requires a switch to the frame
-WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div/iframe')))
+WebDriverWait(driver, 5).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '//*[@id="main-content"]/div[2]/div[1]/div[1]/div/iframe')))
 
 #Create month dictionary
 monthIntStringDict = {
@@ -63,14 +64,14 @@ def getLeagueVSINDailyData(date, displayTime, league, index):
 
     listOfMatchupData = []
     
-    #Get date formatted to match the VSIN table
-    thDate = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div[' + str(index) + ']/div[2]/div/div/div/table/thead[1]/tr/th[1]/span').text 
+    #Get date formatted to match the VSIN table 
+    thDate = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[3]/div[' + str(index) + ']/div[2]/div/div/div/table/thead/tr/th[1]/span').text 
     thDate = thDate.split(',')[1].split()
     thDate = getMonthIntString(thDate[0]) + "/" + thDate[1]
 
     if thDate == date:
         #Adds raw matchup data for a sport to an array, also checks to stop the table because it will go on forever
-        for tableRow in driver.find_elements(By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div[' + str(index) + ']/div[2]/div/div/div/table/tbody[1]//tr'):
+        for tableRow in driver.find_elements(By.XPATH, '/html/body/div[2]/div/div/div[3]/div[' + str(index) + ']/div[2]/div/div/div/table/tbody[1]//tr'):
             matchupDataRow = [item.text for item in tableRow.find_elements(By.XPATH, './/*[self::td]')]
             if matchupDataRow[0] == '' and matchupDataRow[1] == '': break
             listOfMatchupData.append(matchupDataRow)
@@ -132,6 +133,6 @@ for league in leagues:
     leagueName = league.text
     
     #Limiting to the first 5 sports on VSIN as of now
-    if index < 6: 
+    if index < 6 and leagueName != 'NFL - BY State': 
         driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/a[' + str(index) + ']').click()
         getLeagueVSINDailyData(date, displayTime, leagueName, index)
