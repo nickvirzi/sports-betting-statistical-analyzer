@@ -22,7 +22,7 @@ def getESPNLeagueAbbreviation(league):
 
 #Sets up current time and date formatting
 now = datetime.now()
-now -= timedelta(days=1)
+# now -= timedelta(days=1)
 currentTimeMilitary = now.strftime("%H:%M")
 currentTimeStandard = datetime.strptime(currentTimeMilitary, "%H:%M")
 displayTime = currentTimeStandard.strftime("%r")
@@ -31,6 +31,7 @@ displayTime = displayTime[:-6]
 date = now.strftime("%m/%d")
 tempDate = date.split('/')
 
+if tempDate[0][0] == '0': date = date.replace('0', '', 1)
 if tempDate[1][0] == '0': date = date.replace('0', '')
 if displayTime[0] == '0': displayTime = displayTime.replace('0', '', 1)
 
