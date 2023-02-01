@@ -10,7 +10,12 @@ def index():
 @app.route('/runVSIN')
 def runVSIN():
     os.system('python vsinDailyTracker.py')
-    return 'Hello World'
+    return 'VSIN Tracked'
+
+@app.route('/runTrendTracker')
+def runTrendTracker():
+    os.system('python trendTracker.py')
+    return 'Trend Picks Made'
 
 if __name__ == '__main__':
     #Wont work with local, comment out this line and change below to app.run()

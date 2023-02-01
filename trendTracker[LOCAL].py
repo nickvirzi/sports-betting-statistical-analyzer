@@ -67,6 +67,7 @@ displayTime = displayTime[:-6]
 date = now.strftime("%m/%d")
 tempDate = date.split('/')
 
+if tempDate[0][0] == '0': date = date.replace('0', '', 1)
 if tempDate[1][0] == '0': date = date.replace('0', '')
 if displayTime[0] == '0': displayTime = displayTime.replace('0', '', 1)
 
